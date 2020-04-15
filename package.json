@@ -1,0 +1,21 @@
+{
+  "name": "pokedb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [
+    "node"
+  ],
+  "files": [
+    "src"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {},
+  "dependencies": {
+    "koa": "2.11.0"
+  }
+}
