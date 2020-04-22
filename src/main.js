@@ -1,41 +1,22 @@
 import koa from "koa"; // koa@2
 import koaRouter from "koa-router";
-import koaBody from "koa-bodyparser";
-import { graphqlKoa } from "apollo-server-koa";
-import { graphiqlKoa } from "apollo-server-koa";
-import pokemons from "./db/pokemons.json";
-import { makeExecutableSchema } from "graphql-tools";
+// import koaBody from "koa-bodyparser";
+import { ApolloServer } from "apollo-server-koa";
+// import { makeExecutableSchema } from "./graphql";
+import schema from "./graphql";
 
+const server = new ApolloServer({ schema });
 const app = new koa();
 const router = new koaRouter();
-const PORT = 3000;
 
-const typeDefs = `
-  type Query { pokemons: [Pokemon] }
-  type Pokemon { name: String, speed: Number }
-`;
+const { graphqlPath } = server;
+const port = 3000;
 
-const resolvers = {
-  Query: { pokemons: () => pokemons },
-};
-
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
-
-// koaBody is needed just for POST.
-app.use(koaBody());
-
-router.post("/graphql", graphqlKoa({ schema: schema }));
-router.get("/graphql", graphqlKoa({ schema: schema }));
-router.get(
-  "/graphiql",
-  graphiqlKoa({
-    endpointURL: "/graphql", // a POST endpoint that GraphiQL will make the actual requests to
-  })
-);
+server.applyMiddleware({ app });
 
 app.use(router.routes());
 app.use(router.allowedMethods());
-app.listen(PORT);
+
+app.listen({ port }, () =>
+  console.log(`🚀 Server ready at http://localhost:${port}${graphqlPath}`)
+);

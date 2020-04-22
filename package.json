@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "keywords": [
     "node"
@@ -27,6 +27,7 @@
     "esm": "3.2.25",
     "graphql": "15.0.0",
     "graphql-tools": "5.0.0",
-    "koa": "2.11.0"
+    "koa": "2.11.0",
+    "nodemon": "2.0.3"
   }
 }
