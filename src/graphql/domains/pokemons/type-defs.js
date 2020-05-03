@@ -24,5 +24,6 @@ export default gql`
     getByNum(num: String): Pokemon
     getByName(name: String): Pokemon
     getAllPokemons: [Pokemon]
+    getByType(type: String): [Pokemon]
   }
 `;
