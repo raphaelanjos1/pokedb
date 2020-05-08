@@ -1,11 +1,17 @@
 import {
-  getById,
-  getByNum,
+  // getById,
+  // getByNum,
   getByName,
-  getAllPokemons,
-  getByType,
+  // getAllPokemons,
+  // getByType,
 } from "./actions";
 
 export default {
-  Query: { getById, getByNum, getByName, getAllPokemons, getByType },
+  Query: {
+    // getById,
+    // getByNum,
+    getByName,
+    // getAllPokemons,
+    // getByType
+  },
 };
