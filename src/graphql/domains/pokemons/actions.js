@@ -12,11 +12,12 @@ import PokeClient from "../../../services";
 
 export const getByName = async (_, { name }) => {
   // pokemons.find((pokemon) => pokemon.name === name);
-  const apiResults = await PokeClient.getByName(name);
-  const toInsert = apiResults.map(({ pokemon }) => ({
-    ...pokemon,
-    name,
-  }));
-  return toInsert;
+  const { data } = await PokeClient.getPokemonByName(name);
+  console.log({ data })
+  // Aqui vc n precisa de um map, vai ter que estruturar esse objeto data
+  // e tratar como vc quiser
+
+  return data
+
 };
 // export const getAllPokemons = () => pokemons;
