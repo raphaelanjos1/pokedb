@@ -5,10 +5,12 @@ const client = axios.create({
 });
 
 const PokeClient = {
-  // Aqui tava de boa, dois vacilos apenas, o body da resposta que vc tava buscando ta errado
-  // o destructuring se baseia num result que a api manda, e não aleatoriamente,
-  // na doc da pokeapi tem a estrutura da resposta
-  getPokemonByName: async (name) => await client.get(`pokemon/${name.toLowerCase()}`),
+  getPokemonByName: async (name) =>
+    await client.get(`pokemon/${name.toLowerCase()}`),
+  getById: async (id) => await client.get(`pokemon/${id}`),
+  getSpecieById: async (id) => await client.get(`pokemon-species/${id}`),
+  getSpecieByName: async (name) =>
+    await client.get(`pokemon-species/${name.toLowerCase()}`),
 };
 
 export default PokeClient;

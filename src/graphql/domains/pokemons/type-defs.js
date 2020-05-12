@@ -3,25 +3,31 @@ import { gql } from "apollo-server-koa";
 export default gql`
   type Pokemon {
     id: Int
-    num: String
+    order: String
     name: String
     img: String
     type: [String]
     height: String
     weight: String
-    weaknesses: [String]
-    prev_evolution: [Evolution]
-    next_evolution: [Evolution]
+    hp: Int
+    attack: Int
+    defense: Int
+    special_attack: Int
+    special_defense: Int
+    speed: Int
+    evolution_chain: [Evolution]
   }
 
   type Evolution {
-    num: String
-    name: String
+    species_name: String
+    species_img: String
+    min_level: Int
+    trigger_name: String
+    item_name: String
   }
 
   type Query {
     getById(id: Int): Pokemon
-    getByNum(num: String): Pokemon
     getByName(name: String): Pokemon
     getAllPokemons: [Pokemon]
     getByType(type: String): [Pokemon]

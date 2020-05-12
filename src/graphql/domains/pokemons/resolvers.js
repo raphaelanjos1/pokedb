@@ -1,5 +1,5 @@
 import {
-  // getById,
+  getById,
   // getByNum,
   getByName,
   // getAllPokemons,
@@ -8,7 +8,7 @@ import {
 
 export default {
   Query: {
-    // getById,
+    getById,
     // getByNum,
     getByName,
     // getAllPokemons,
