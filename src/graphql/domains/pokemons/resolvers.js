@@ -1,17 +1,8 @@
-import {
-  getById,
-  // getByNum,
-  getByName,
-  // getAllPokemons,
-  // getByType,
-} from "./actions";
+import { getById, getByName } from './actions'
 
 export default {
   Query: {
     getById,
-    // getByNum,
     getByName,
-    // getAllPokemons,
-    // getByType
   },
-};
+}

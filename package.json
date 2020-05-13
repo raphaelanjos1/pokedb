@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "lint": "xo --quiet",
+    "precommit": "lint-staged"
   },
   "keywords": [
     "node"
@@ -12,7 +14,36 @@
   "files": [
     "src"
   ],
-  "author": "",
+  "xo": {
+    "extends": [
+      "prettier"
+    ],
+    "rules": {
+      "prefer-promise-reject-errors": 0,
+      "no-use-extend-native/no-use-extend-native": 0,
+      "camelcase": 0,
+      "dot-notation": 0,
+      "not-return-await": 0,
+      "new-cap": 0,
+      "unicorn/prevent-abbreviations": 0,
+      "import/no-unassigned-import": 0,
+      "no-global-assign": 0,
+      "unicorn/no-nested-ternary": 0,
+      "no-await-in-loop": 0,
+      "no-negated-condition": 0,
+      "no-return-await": 0,
+      "no-implicit-coercion": 0,
+      "no-prototype-builtins": 0
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint",
+      "prettier --semi false --single-quote --trailing-comma --write",
+      "git add ."
+    ]
+  },
+  "author": "Raphael Anjos",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "7.8.4",
@@ -20,7 +51,10 @@
     "@babel/preset-env": "7.9.5",
     "@babel/register": "7.9.0",
     "babel-plugin-module-resolver": "4.0.0",
-    "babel-polyfill": "6.26.0"
+    "babel-polyfill": "6.26.0",
+    "lint-staged": "10.2.2",
+    "prettier": "2.0.5",
+    "xo": "0.30.0"
   },
   "dependencies": {
     "apollo-server-koa": "2.12.0",

@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios'
 
 const client = axios.create({
-  baseURL: "https://pokeapi.co/api/v2/",
-});
+  baseURL: 'https://pokeapi.co/api/v2/',
+})
 
 const PokeClient = {
   getPokemonByName: async (name) =>
@@ -11,6 +11,6 @@ const PokeClient = {
   getSpecieById: async (id) => await client.get(`pokemon-species/${id}`),
   getSpecieByName: async (name) =>
     await client.get(`pokemon-species/${name.toLowerCase()}`),
-};
+}
 
-export default PokeClient;
+export default PokeClient

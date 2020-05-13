@@ -1,21 +1,20 @@
-// import pokemons from "../../../db/pokemons";
-import PokeClient from "../../../services";
-import axios from "axios";
+import PokeClient from '../../../services'
+import axios from 'axios'
 
 export const getById = async (_, { id }) => {
-  const { data } = await PokeClient.getById(id);
-  const specie = await PokeClient.getSpecieById(id);
-  const chain = specie.data.evolution_chain.url;
-  const evolutionChain = await axios.get(chain);
+  const { data } = await PokeClient.getById(id)
+  const specie = await PokeClient.getSpecieById(id)
+  const chain = specie.data.evolution_chain.url
+  const evolutionChain = await axios.get(chain)
 
-  let evoChain = [];
-  let evoData = evolutionChain.data.chain;
+  const evoChain = []
+  let evoData = evolutionChain.data.chain
 
   do {
-    const evoDetails = evoData["evolution_details"][0];
+    const evoDetails = evoData['evolution_details'][0]
     const evoPic = await axios.get(
       `https://pokeapi.co/api/v2/pokemon-form/${evoData.species.name}/`
-    );
+    )
 
     evoChain.push({
       species_name: evoData.species.name,
@@ -27,9 +26,9 @@ export const getById = async (_, { id }) => {
         : evoDetails.item === null
         ? evoDetails.item
         : evoDetails.item.name,
-    });
-    evoData = evoData["evolves_to"][0];
-  } while (!!evoData && evoData.hasOwnProperty("evolves_to"));
+    })
+    evoData = evoData['evolves_to'][0]
+  } while (!!evoData && evoData.hasOwnProperty('evolves_to'))
 
   return {
     id: data.id,
@@ -37,7 +36,7 @@ export const getById = async (_, { id }) => {
     name: data.name,
     img: data.sprites.front_default,
     type: data.types.map((el) => {
-      return el.type.name;
+      return el.type.name
     }),
     height: data.height,
     weight: data.weight,
@@ -48,23 +47,23 @@ export const getById = async (_, { id }) => {
     special_defense: data.stats[1].base_stat,
     speed: data.stats[0].base_stat,
     evolution_chain: evoChain,
-  };
-};
+  }
+}
 
 export const getByName = async (_, { name }) => {
-  const { data } = await PokeClient.getPokemonByName(name);
-  const specie = await PokeClient.getSpecieByName(name);
-  const chain = specie.data.evolution_chain.url;
-  const evolutionChain = await axios.get(chain);
+  const { data } = await PokeClient.getPokemonByName(name)
+  const specie = await PokeClient.getSpecieByName(name)
+  const chain = specie.data.evolution_chain.url
+  const evolutionChain = await axios.get(chain)
 
-  let evoChain = [];
-  let evoData = evolutionChain.data.chain;
+  const evoChain = []
+  let evoData = evolutionChain.data.chain
 
   do {
-    const evoDetails = evoData["evolution_details"][0];
+    const evoDetails = evoData['evolution_details'][0]
     const evoPic = await axios.get(
       `https://pokeapi.co/api/v2/pokemon-form/${evoData.species.name}/`
-    );
+    )
 
     evoChain.push({
       species_name: evoData.species.name,
@@ -76,9 +75,9 @@ export const getByName = async (_, { name }) => {
         : evoDetails.item === null
         ? evoDetails.item
         : evoDetails.item.name,
-    });
-    evoData = evoData["evolves_to"][0];
-  } while (!!evoData && evoData.hasOwnProperty("evolves_to"));
+    })
+    evoData = evoData['evolves_to'][0]
+  } while (!!evoData && evoData.hasOwnProperty('evolves_to'))
 
   return {
     id: data.id,
@@ -86,7 +85,7 @@ export const getByName = async (_, { name }) => {
     name: data.name,
     img: data.sprites.front_default,
     type: data.types.map((el) => {
-      return el.type.name;
+      return el.type.name
     }),
     height: data.height,
     weight: data.weight,
@@ -97,5 +96,5 @@ export const getByName = async (_, { name }) => {
     special_defense: data.stats[1].base_stat,
     speed: data.stats[0].base_stat,
     evolution_chain: evoChain,
-  };
-};
+  }
+}

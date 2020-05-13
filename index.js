@@ -1,4 +1,4 @@
-require("babel-polyfill");
-require = require("esm")(module);
+require('babel-polyfill')
+require = require('esm')(module)
 
-module.exports = require("./src/main");
+module.exports = require('./src/main')
