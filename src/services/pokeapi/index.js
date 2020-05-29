@@ -11,6 +11,7 @@ const PokeClient = {
   getSpecieById: async (id) => await client.get(`pokemon-species/${id}`),
   getSpecieByName: async (name) =>
     await client.get(`pokemon-species/${name.toLowerCase()}`),
+  getPokemons: async () => await client.get(`pokemon?limit=151`),
 }
 
 export default PokeClient
