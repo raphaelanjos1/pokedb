@@ -131,9 +131,14 @@ export const getByName = async (_, { name }) => {
 
 export const getAllPokemons = async () => {
   const { data } = await PokeClient.getPokemons()
-  return {
-    name: data.results.map((el) => {
-      return el.name
-    }),
-  }
+
+  let repo = data.results
+  let resultArr = []
+  repo.map((el, index) => {
+    resultArr.push({
+      name: el.name,
+    })
+  })
+
+  return resultArr
 }
