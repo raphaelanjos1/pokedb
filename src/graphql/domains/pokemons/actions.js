@@ -1,7 +1,7 @@
 import PokeClient from '../../../services'
 import axios from 'axios'
 // import { data as rtkData, createLink } from 'rethinkly'
-// import logger from 'hoopa-logger'
+import logger from 'hoopa-logger'
 
 export const getById = async (_, { id }) => {
   const { data } = await PokeClient.getById(id)
@@ -130,15 +130,18 @@ export const getByName = async (_, { name }) => {
 }
 
 export const getAllPokemons = async () => {
-  const { data } = await PokeClient.getPokemons()
+  logger.info("Getting all pokemons data...")
+  const { data: { results } } = await PokeClient.getPokemons()
 
-  let repo = data.results
-  let resultArr = []
-  repo.map((el, index) => {
-    resultArr.push({
-      name: el.name,
+  const pokemonsPromises = results.map(({ name }) => getByName(null, { name }))
+  
+  const pokemons = Promise.all(pokemonsPromises)
+    .then(data => {
+      logger.info("Get is done!")
+      
+      return data
     })
-  })
-
-  return resultArr
+    .catch(error => logger.error(`Get all data error: ${error}`))
+  
+  return pokemons
 }
