@@ -18,17 +18,20 @@ export const getById = async (_, { id }) => {
       `https://pokeapi.co/api/v2/pokemon-form/${evoData.species.name}/`
     )
 
-    evoChain.push({
-      species_name: evoData.species.name,
-      species_img: evoPic.data.sprites.front_default,
-      min_level: !evoDetails ? 1 : evoDetails.min_level,
-      trigger_name: !evoDetails ? null : evoDetails.trigger.name,
-      item_name: !evoDetails
-        ? null
-        : evoDetails.item === null
-        ? evoDetails.item
-        : evoDetails.item.name,
-    })
+    if (data.name !== evoData.species.name) {
+      evoChain.push({
+        species_name: evoData.species.name,
+        species_img: evoPic.data.sprites.front_default,
+        min_level: !evoDetails ? 1 : evoDetails.min_level,
+        trigger_name: !evoDetails ? null : evoDetails.trigger.name,
+        item_name: !evoDetails
+          ? null
+          : evoDetails.item === null
+          ? evoDetails.item
+          : evoDetails.item.name,
+      })
+    }
+
     evoData = evoData['evolves_to'][0]
   } while (!!evoData && evoData.hasOwnProperty('evolves_to'))
 
@@ -74,17 +77,20 @@ export const getByName = async (_, { name }) => {
       `https://pokeapi.co/api/v2/pokemon-form/${evoData.species.name}/`
     )
 
-    evoChain.push({
-      species_name: evoData.species.name,
-      species_img: evoPic.data.sprites.front_default,
-      min_level: !evoDetails ? 1 : evoDetails.min_level,
-      trigger_name: !evoDetails ? null : evoDetails.trigger.name,
-      item_name: !evoDetails
-        ? null
-        : evoDetails.item === null
-        ? evoDetails.item
-        : evoDetails.item.name,
-    })
+    if (name !== evoData.species.name) {
+      evoChain.push({
+        species_name: evoData.species.name,
+        species_img: evoPic.data.sprites.front_default,
+        min_level: !evoDetails ? 1 : evoDetails.min_level,
+        trigger_name: !evoDetails ? null : evoDetails.trigger.name,
+        item_name: !evoDetails
+          ? null
+          : evoDetails.item === null
+          ? evoDetails.item
+          : evoDetails.item.name,
+      })
+    }
+
     evoData = evoData['evolves_to'][0]
   } while (!!evoData && evoData.hasOwnProperty('evolves_to'))
 
