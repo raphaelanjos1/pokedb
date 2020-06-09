@@ -136,18 +136,20 @@ export const getByName = async (_, { name }) => {
 }
 
 export const getAllPokemons = async () => {
-  logger.info("Getting all pokemons data...")
-  const { data: { results } } = await PokeClient.getPokemons()
+  logger.info('Getting all pokemons data...')
+  const {
+    data: { results },
+  } = await PokeClient.getPokemons()
 
   const pokemonsPromises = results.map(({ name }) => getByName(null, { name }))
-  
+
   const pokemons = Promise.all(pokemonsPromises)
-    .then(data => {
-      logger.info("Get is done!")
-      
+    .then((data) => {
+      logger.info('Get is done!')
+      console.log(data)
       return data
     })
-    .catch(error => logger.error(`Get all data error: ${error}`))
-  
+    .catch((error) => logger.error(`Get all data error: ${error}`))
+
   return pokemons
 }
