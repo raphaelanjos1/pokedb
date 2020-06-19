@@ -1,11 +1,11 @@
-import PokeClient from '../../../services'
+import { PokeClient, rethinkly } from '../../../services'
 import axios from 'axios'
-// import { data as rtkData, createLink } from 'rethinkly'
+import { data as rtkData, createLink, database, table } from 'rethinkly'
 import logger from 'hoopa-logger'
 
-export const getById = async (_, { id }) => {
-  const { data } = await PokeClient.getById(id)
-  const specie = await PokeClient.getSpecieById(id)
+export const getById = async (_, { poke_id }) => {
+  const { data } = await PokeClient.getById(poke_id)
+  const specie = await PokeClient.getSpecieById(poke_id)
   const chain = specie.data.evolution_chain.url
   const evolutionChain = await axios.get(chain)
 
@@ -36,7 +36,7 @@ export const getById = async (_, { id }) => {
   } while (!!evoData && evoData.hasOwnProperty('evolves_to'))
 
   return {
-    id: data.id,
+    poke_id: data.id,
     order: data.order,
     name: data.name,
     img: data.sprites.front_default,
@@ -60,13 +60,6 @@ export const getByName = async (_, { name }) => {
   const specie = await PokeClient.getSpecieByName(name)
   const chain = specie.data.evolution_chain.url
   const evolutionChain = await axios.get(chain)
-
-  // const db = 'pokedb'
-  // const connection = await createLink({
-  //   host: '142.93.224.48',
-  //   port: '28015',
-  //   db,
-  // })
 
   const evoChain = []
   let evoData = evolutionChain.data.chain
@@ -94,29 +87,8 @@ export const getByName = async (_, { name }) => {
     evoData = evoData['evolves_to'][0]
   } while (!!evoData && evoData.hasOwnProperty('evolves_to'))
 
-  // await rtkData.insert(connection, 'pokemon', {
-  //   id: data.id,
-  //   order: data.order,
-  //   name: data.name,
-  //   img: data.sprites.front_default,
-  //   type: data.types.map((el) => {
-  //     return el.type.name
-  //   }),
-  //   height: data.height,
-  //   weight: data.weight,
-  //   hp: data.stats[5].base_stat,
-  //   attack: data.stats[4].base_stat,
-  //   defense: data.stats[3].base_stat,
-  //   special_attack: data.stats[2].base_stat,
-  //   special_defense: data.stats[1].base_stat,
-  //   speed: data.stats[0].base_stat,
-  //   evolution_chain: evoChain,
-  // })
-
-  // console.log(await rtkData.get(connection, 'pokemon'))
-
   return {
-    id: data.id,
+    poke_id: data.id,
     order: data.order,
     name: data.name,
     img: data.sprites.front_default,
@@ -136,20 +108,27 @@ export const getByName = async (_, { name }) => {
 }
 
 export const getAllPokemons = async () => {
-  logger.info('Getting all pokemons data...')
-  const {
-    data: { results },
-  } = await PokeClient.getPokemons()
-
-  const pokemonsPromises = results.map(({ name }) => getByName(null, { name }))
-
-  const pokemons = Promise.all(pokemonsPromises)
-    .then((data) => {
-      logger.info('Get is done!')
-      console.log(data)
-      return data
-    })
-    .catch((error) => logger.error(`Get all data error: ${error}`))
-
+  const conn = await rethinkly()
+  const pokemons = await rtkData.get(conn, 'pokemon')
   return pokemons
+  // // await database.create(conn, 'pokedb')
+  // // await table.create(conn, 'pokemon')
+
+  // logger.info('Getting all pokemons data...')
+  // const {
+  //   data: { results },
+  // } = await PokeClient.getPokemons()
+
+  // const pokemonsPromises = results.map(({ name }) => getByName(null, { name }))
+
+  // const pokemons = Promise.all(pokemonsPromises)
+  //   .then((data) => {
+  //     logger.info('Get is done!')
+  //     // await rtkData.insert(conn, data)
+
+  //     return data
+  //   })
+  //   .catch((error) => logger.error(`Get all data error: ${error}`))
+
+  // return pokemons
 }

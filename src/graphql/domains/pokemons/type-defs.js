@@ -1,8 +1,8 @@
-import { gql } from "apollo-server-koa";
+import { gql } from 'apollo-server-koa'
 
 export default gql`
   type Pokemon {
-    id: Int
+    poke_id: Int
     order: String
     name: String
     img: String
@@ -27,9 +27,9 @@ export default gql`
   }
 
   type Query {
-    getById(id: Int): Pokemon
+    getById(poke_id: Int): Pokemon
     getByName(name: String): Pokemon
     getAllPokemons: [Pokemon]
     getByType(type: String): [Pokemon]
   }
-`;
+`

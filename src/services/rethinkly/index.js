@@ -1,8 +1,8 @@
 import { createLink } from 'rethinkly'
 
 const config = {
-  host: process.env.RETHINKDB_URL,
-  port: process.env.RETHINKDB_PORT,
+  host: process.env.RETHINK_URL,
+  port: process.env.RETHINK_PORT,
   db: process.env.DB_NAME,
 }
 
